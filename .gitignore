@@ -1,0 +1,24 @@
+# ユーザー固有のファイル
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# ビルド成果物
+[Bb]in/
+[Oo]bj/
+
+# Windowsインストーラファイル
+*.cab
+*.msi
+*.msm
+*.msp
+
+# ASP.NET プロジェクトの場合
+# project.lock.json
+# project.fragment.lock.json
+# *.tmp
+
+# .NET Core
+.vs2017/
+.vs2019/
