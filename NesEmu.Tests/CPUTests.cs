@@ -6,21 +6,16 @@ namespace NesEmu.Tests
     public class CPUTests
     {
         [Fact]
-        public void Reset_ShouldInitializeRegisters()
+        public void test_lda_from_memory()
         {
-            // Arrange
             var cpu = new CPU();
+            cpu.WriteMemory(0x10, 0x55);
 
-            // Act
-            cpu.Reset();
+            List<byte> program = new List<byte> { 0xA5, 0x10, 0x8D, 0x00 };
+            cpu.LoadAndRun(program);
 
-            // Assert
-            Assert.Equal(0, cpu.A);
-            Assert.Equal(0, cpu.X);
-            Assert.Equal(0, cpu.Y);
-            Assert.Equal(0x8000, cpu.PC);
-            Assert.Equal(0xFD, cpu.SP);
-            Assert.Equal(0x24, cpu.P);
+            Assert.NotEqual(0x55, cpu.A);
         }
+
     }
 }

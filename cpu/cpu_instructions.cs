@@ -110,5 +110,8 @@ namespace Emulator
             SetFlag(Flags.N, (X & 0x80) != 0);
         }
 
+
+
+
     }
 }
