@@ -42,7 +42,9 @@ namespace Emulator
             AbsoluteX,
             AbsoluteY,
             IndexedX,
-            IndexedY
+            IndexedY,
+            IndexedIndirect,
+            IndirectIndexed,
         }
 
 

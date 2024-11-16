@@ -16,6 +16,19 @@ namespace Emulator
                 case AddressingMode.ZeroPage:
                     value = ReadMemory(address); // ゼロページモード：低位8ビットがゼロページアドレス
                     break;
+                case AddressingMode.ZeroPageX: // ゼロページ + X
+                    value = ReadMemory((ushort)((address + X) & 0xFF));
+                    break;
+
+                case AddressingMode.AbsoluteX: // 絶対アドレス + X
+                    value = ReadMemory((ushort)(address + X));
+                    break;
+
+                case AddressingMode.AbsoluteY: // 絶対アドレス + Y
+                    value = ReadMemory((ushort)(address + Y));
+                    break;
+
+
                 case AddressingMode.Absolute:
                     value = ReadMemory(address); // 絶対アドレスモード
                     break;
@@ -25,6 +38,23 @@ namespace Emulator
                 case AddressingMode.IndexedY:
                     value = ReadMemory((ushort)(address + Y)); // 絶対アドレス + Y (インデックスモード Y)
                     break;
+                case AddressingMode.IndexedIndirect: // (Indirect,X)
+                                                     // ZeroPage アドレスを X レジスタでインデックス
+                    ushort indirectAddress = (ushort)((address + X) & 0xFF);
+                    // 間接アドレスを取得
+                    ushort effectiveAddress = (ushort)(ReadMemory(indirectAddress) | (ReadMemory((ushort)((indirectAddress + 1) & 0xFF)) << 8));
+                    value = ReadMemory(effectiveAddress);
+                    break;
+                case AddressingMode.IndirectIndexed: // (Indirect),Y
+                                                     // ZeroPage アドレスから間接アドレスを取得
+                    ushort baseAddress = (ushort)(ReadMemory(address) | (ReadMemory((ushort)((address + 1) & 0xFF)) << 8));
+                    // Y レジスタでインデックス
+                    ushort effectiveAddressIndexed = (ushort)(baseAddress + Y);
+                    value = ReadMemory(effectiveAddressIndexed);
+                    break;
+
+
+
                 default:
                     throw new ArgumentException("Unsupported addressing mode");
             }
